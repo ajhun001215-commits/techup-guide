@@ -935,15 +935,15 @@ function render(){
 
 // ── 테마 토글 ──────────────────────────────────────────────────────────
 (function initTheme(){
+  // 기기의 시스템 다크모드 설정과 상관없이 첫 화면은 항상 베이지(라이트)로 보여준다 —
+  // 방문자가 직접 화면 모드 버튼을 눌러야만 다크로 바뀌고, 그 선택은 다음 방문까지 기억된다.
   let saved = null;
-  try{ saved = localStorage.getItem('aix-techup-theme'); }catch(e){}
-  if(saved) document.documentElement.setAttribute('data-theme', saved);
+  try{ saved = localStorage.getItem('techup-theme'); }catch(e){}
+  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
   document.getElementById('themeToggle').addEventListener('click', ()=>{
-    const cur = document.documentElement.getAttribute('data-theme');
-    const next = cur === 'dark' ? 'light' : (cur === 'light' ? null : (isDark() ? 'light' : 'dark'));
-    if(next) document.documentElement.setAttribute('data-theme', next);
-    else document.documentElement.removeAttribute('data-theme');
-    try{ localStorage.setItem('aix-techup-theme', next || ''); }catch(e){}
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try{ localStorage.setItem('techup-theme', next); }catch(e){}
     applyAccent(TRACKS[current]);
   });
 })();
